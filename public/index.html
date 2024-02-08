@@ -13,31 +13,35 @@
 
     <div class="wrapper-star" id="js-wrapper-star"></div>
 
-    <div class="money">
-        <p>所持金: <span id="js-money">0</span>円</p>
-        <p>1秒あたりの獲得量: <span id="js-unit-money">0</span>円</p>
+    <div class="wrapper-upper">
+        <button class="auto-slot" id="js-auto-slot">オートスロット <span id="js-auto-slot-time-left">0</span>秒</button>
+        <button class="is-enhanced" id="js-is-enhanced">スロット強化 <span id="js-enhance-time-left">0</span>秒</button>
+        <div class="money">
+            <p>所持金: <span id="js-money">0</span>円</p>
+            <p>1秒あたりの獲得量: <span id="js-unit-money">0</span>円</p>
+        </div>
     </div>
 
     <div class="wrapper-center">
         <div class="enhance">
             <div>
-                <label>所持金</label>
+                <label>所持金+10%</label>
                 <button id="js-button-price-money"><span id="js-price-money"></span>円</button>
             </div>
             <div>
-                <label>所持金獲得量</label>
+                <label>所持金獲得量+10%</label>
                 <button id="js-button-price-money-increase"><span id="js-price-money-increase"></span>円</button>
             </div>
             <div>
-                <label>スロット強化</label>
+                <label>スロット強化+3秒</label>
                 <button id="js-button-price-slot-enhance"><span id="js-price-slot-enhance"></span>円</button>
             </div>
             <div>
-                <label>スロット間隔短縮</label>
+                <label>スロット間隔短縮+3秒</label>
                 <button id="js-button-price-slot-shorten"><span id="js-price-slot-shorten"></span>円</button>
             </div>
             <div>
-                <label>オートスロット</label>
+                <label>オートスロット+3秒</label>
                 <button id="js-button-price-auto-slot"><span id="js-price-auto-slot"></span>円</button>
             </div>
         </div>
