@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+button {
+  outline: none;
+}
+
 html {
   background-color: rgba(255, 255, 85, 0.1333333333);
   margin-bottom: 50px;
@@ -60,7 +64,20 @@ h1 {
   transform: rotate(15deg) translate(-50px, -10px);
 }
 
-.money {
+.wrapper-upper {
+  display: flex;
+  justify-content: right;
+}
+.wrapper-upper .is-enhanced, .wrapper-upper .auto-slot {
+  width: 220px;
+  margin-top: 7vh;
+  margin-right: 30px;
+  font-size: 22px;
+  background-color: #fff;
+  border: 0.8px solid #444;
+  border-radius: 10px;
+}
+.wrapper-upper .money {
   text-align: right;
   margin-right: 15vw;
   margin-top: 7vh;
