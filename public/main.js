@@ -1,3 +1,5 @@
+// localStorage.clear();
+
 function rand(n){
     return Math.trunc(Math.random()*n);
 }
@@ -24,7 +26,7 @@ function enableButtonStart(choiceNum){
                 text.classList.remove("slot-mode");
                 text.style.transform = `translateY(${randSelectPx}px)`;
             }
-            let restartDuration = 800;
+            let restartDuration = 500;
             setTimeout(()=>{
                 elemButtonStart.disabled = false;
             }, restartDuration);
@@ -36,23 +38,69 @@ function enableButtonStart(choiceNum){
 class Roll{
     constructor(){
         this.idx;
+        this.isEnhanced;
+        this.isAutoSlot;
+        this.enhanceTimeLeft = 0;
         this.choiceMoney = 10;
         this.choiceMoneyIncrease = 10;
-        this.choiceSlotShorten = 5;
-        this.choiceSlotEnhance
+        this.choiceSlotEnhance = 3;
+        this.choiceSlotShorten = 3;
+        this.choiceAutoSlot = 3;
+
+        if (localStorage.getItem("choiceMoney")===null){
+            localStorage.setItem("choiceMoney", 10);
+            localStorage.setItem("choiceMoneyIncrease", 10);
+            localStorage.setItem("choiceSlotEnhance", 3);
+            localStorage.setItem("choiceSlotShorten", 3);
+            localStorage.setItem("choiceAutoSlot", 3);
+        } else {
+            this.choiceMoney = parseInt(localStorage.getItem("choiceMoney"));
+            this.choiceMoneyIncrease = parseInt(localStorage.getItem("choiceMoneyIncrease"));
+            this.priceSlotEnhance = parseInt(localStorage.getItem("choiceSlotEnhance"));
+            this.priceSlotShorten = parseInt(localStorage.getItem("choiceSlotShorten"));
+            this.choiceAutoSlot = parseInt(localStorage.getItem("choiceAutoSlot"));
+        }
+        
         this.choice = [
-            "所持金+10%",
-            "所持金獲得量+10%",
-            "スロット間隔短縮5秒",
-            "スロット強化5秒",
-            "オートスロット5秒",
+            `所持金+${this.choiceMoney}%`,
+            `所持金獲得量+${this.choiceMoneyIncrease}%`,
+            `スロット強化${this.choiceSlotEnhance}秒`,
+            `スロット間隔短縮${this.choiceSlotShorten}秒`,
+            `オートスロット${this.choiceAutoSlot}秒`,
         ];
         this.choiceNum = this.choice.length;
     }
 
-    enhance(rollStr){
-        if (rollStr==="所持金"){
-        }
+    clear(){
+        this.choiceMoney = 10;
+        this.choiceMoneyIncrease = 10;
+        this.choiceSlotEnhance = 3;
+        this.choiceSlotShorten = 3;
+        this.choiceAutoSlot = 3;
+        this.choice = [
+            `所持金+${this.choiceMoney}%`,
+            `所持金獲得量+${this.choiceMoneyIncrease}%`,
+            `スロット強化${this.choiceSlotEnhance}秒`,
+            `スロット間隔短縮${this.choiceSlotShorten}秒`,
+            `オートスロット${this.choiceAutoSlot}秒`,
+        ];
+    }
+
+    rollUpdate(){
+        this.choice = [
+            `所持金+${this.choiceMoney}%`,
+            `所持金獲得量+${this.choiceMoneyIncrease}%`,
+            `スロット強化${this.choiceSlotEnhance}秒`,
+            `スロット間隔短縮${this.choiceSlotShorten}秒`,
+            `オートスロット${this.choiceAutoSlot}秒`,
+        ];
+        slotUi.registerChoice(this.choice);
+        updateButtonPriceState();
+        localStorage.setItem("choiceMoney", this.choiceMoney);
+        localStorage.setItem("choiceMoneyIncrease", this.choiceMoneyIncrease);
+        localStorage.setItem("choiceSlotEnhance", this.choiceSlotEnhance);
+        localStorage.setItem("choiceSlotShorten", this.choiceSlotShorten);
+        localStorage.setItem("choiceAutoSlot", this.choiceAutoSlot);
     }
 
     setIdx(idx){
@@ -88,6 +136,24 @@ class Roll{
             money = Math.ceil(money);
             elemMoney.textContent = money;
         } else if (rollStr.slice(0, 6)==="スロット強化"){
+            let elemEnhanceTimeLeft = document.getElementById("js-enhance-time-left");
+            this.isEnhanced = true;
+            elemIsEnhanced.disabled = false;
+            if (this.enhanceTimeLeft<=0){
+                this.enhanceTimeLeft = this.choiceSlotEnhance;
+                let set = setInterval(() => {
+                    this.enhanceTimeLeft--;
+                    elemEnhanceTimeLeft.textContent = this.enhanceTimeLeft;
+                    if (this.enhanceTimeLeft<=0){
+                        clearInterval(set);
+                        this.isEnhanced = false;
+                        elemIsEnhanced.disabled = true;
+                    }
+                }, 1000);
+            } else {
+                this.enhanceTimeLeft = this.choiceSlotEnhance;
+            }
+            elemEnhanceTimeLeft.textContent = this.enhanceTimeLeft;
         }
     }
 }
@@ -98,14 +164,13 @@ enableButtonStart(roll.choiceNum);
 
 // スロット
 class SlotUi {
-    constructor(choice){
-        this.choice = choice;
-        this.choiceNum = choice.length;
-    }
 
-    registerChoice(){
+    registerChoice(choice){
         let elemSlot = document.getElementById("js-slot");
-        let choiceNum = this.choice.length;
+        let choiceNum = choice.length;
+        while (elemSlot.hasChildNodes()){
+            elemSlot.removeChild(elemSlot.lastChild);
+        }
 
         for (let i=0; i<choiceNum*10; i++){
             if (i===2){
@@ -115,16 +180,16 @@ class SlotUi {
             }
             let elem = document.createElement("p");
             elem.setAttribute("class", "js-text-slot");
-            elem.textContent = this.choice[i%choiceNum];
+            elem.textContent = choice[i%choiceNum];
             elemSlot.appendChild(elem);
         }
     }
 
-    setKeyframes(){
+    setKeyframes(choice){
         let keyframes = `
             @keyframes slot{
                 0%{
-                    transform: translateY(${-60*this.choiceNum}px);
+                    transform: translateY(${-60*choice.length}px);
                 }
                 100%{
                     transform: translateY(0);
@@ -135,9 +200,9 @@ class SlotUi {
         style.insertAdjacentHTML("afterbegin", keyframes);
     }
 }
-let slotUi = new SlotUi(roll.choice);
-slotUi.registerChoice();
-slotUi.setKeyframes();
+let slotUi = new SlotUi();
+slotUi.registerChoice(roll.choice);
+slotUi.setKeyframes(roll.choice);
 
 // 所持金
 let elemMoney = document.getElementById("js-money");
@@ -166,12 +231,33 @@ setInterval(() => {
 // リセットボタン
 let elemButtonReset = document.getElementById("js-button-reset");
 elemButtonReset.onclick = ()=>{
+    let ok = confirm("リセットしますか？");
+    if (!ok){
+        return;
+    }
+    roll.clear();
+    slotUi.registerChoice(roll.choice);
     money = 0;
     moneyIncrease = 1;
     elemMoney.textContent = money;
     elemMoneyIncrease.textContent = moneyIncrease;
+    elemPriceMoney.textContent = 100;
+    elemPriceMoneyIncrease.textContent = 100;
+    elemPriceSlotEnhance.textContent = 100;
+    elemPriceSlotShorten.textContent = 100;
+    elemPriceAutoSlot.textContent = 100;
     localStorage.setItem("money", 0);
     localStorage.setItem("moneyIncrease", 0);
+    localStorage.setItem("priceMoney", 100);
+    localStorage.setItem("priceMoneyIncrease", 100);
+    localStorage.setItem("priceSlotEnhance", 100);
+    localStorage.setItem("priceSlotShorten", 100);
+    localStorage.setItem("priceAutoSlot", 100);
+    localStorage.setItem("choiceMoney", 10);
+    localStorage.setItem("choiceMoneyIncrease", 10);
+    localStorage.setItem("choiceSlotEnhance", 3);
+    localStorage.setItem("choiceSlotShorten", 3);
+    localStorage.setItem("choiceSlotAuto", 3);
 }
 
 // 998スターを表示
@@ -255,3 +341,57 @@ function updateButtonPriceState(){
     }
 }
 updateButtonPriceState();
+
+elemButtonPriceMoney.onclick = ()=>{
+    money -= priceMoney;
+    roll.choiceMoney += 10;
+    roll.rollUpdate();
+    priceMoney += 100;
+    elemPriceMoney.textContent = priceMoney;
+}
+elemButtonPriceMoneyIncrease.onclick = ()=>{
+    money -= priceMoneyIncrease;
+    roll.choiceMoneyIncrease += 10;
+    roll.rollUpdate();
+    priceMoneyIncrease += 100;
+    elemPriceMoneyIncrease.textContent = priceMoneyIncrease;
+}
+elemButtonPriceSlotEnhance.onclick = ()=>{
+    money -= priceSlotEnhance;
+    roll.choiceSlotEnhance += 3;
+    roll.rollUpdate();
+    priceSlotEnhance += 100;
+    elemPriceSlotEnhance.textContent = priceSlotEnhance;
+}
+elemButtonPriceSlotShorten.onclick = ()=>{
+    money -= priceSlotShorten;
+    roll.choiceSlotShorten += 3;
+    roll.rollUpdate();
+    priceSlotShorten += 100;
+    elemPriceSlotShorten.textContent = priceSlotShorten;
+}
+elemButtonPriceAutoSlot.onclick = ()=>{
+    money -= priceAutoSlot;
+    roll.choiceAutoSlot += 3;
+    roll.rollUpdate();
+    priceAutoSlot += 100;
+    elemPriceAutoSlot.textContent = priceAutoSlot;
+}
+
+let elemIsEnhanced = document.getElementById("js-is-enhanced");
+roll.isEnhanced = localStorage.getItem("isEnhanced");
+if (roll.isEnhanced===null || !roll.isEnhanced){
+    roll.isEnhanced = false;
+    elemIsEnhanced.disabled = true;
+} else {
+    elemIsEnhanced.disabled = false;
+}
+
+let elemAutoSlot = document.getElementById("js-auto-slot");
+roll.isAutoSlot = localStorage.getItem("isAutoSlot");
+if (roll.isAutoSlot===null || !roll.isAutoSlot){
+    roll.isAutoSlot = false;
+    elemAutoSlot.disabled = true;
+} else {
+    elemAutoSlot.disabled = false;
+}
