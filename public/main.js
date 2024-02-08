@@ -16,7 +16,7 @@ function enableButtonStart(choiceNum){
         }
         let spinDuration = 3000;
         setTimeout(() => {
-            let unit = -24;
+            let unit = -30;
             let randSelectIdx = rand(choiceNum);
             roll.setIdx(randSelectIdx);
             let randSelectPx = unit*(choiceNum+randSelectIdx);
@@ -38,16 +38,20 @@ class Roll{
         this.idx;
         this.choice = [
             "所持金+10%",
-            "所持金増加量+10%",
+            "所持金獲得量+10%",
             "スロット間隔短縮30秒",
+            "所持金+30%",
+            "所持金獲得量+30%",
             "スロット強化30秒",
+            "所持金+50%",
+            "オートスロット30秒",
         ];
         this.choiceNum = this.choice.length;
     }
 
     setIdx(idx){
         this.idx = idx;
-        this.apply();
+        this.applyRoll();
     }
 
     getIdx(){
@@ -64,19 +68,20 @@ class Roll{
         return parseInt(num);
     }
 
-    apply(){
+    applyRoll(){
         let idx = this.getIdx();
         let rollStr = this.choice[idx];
         let num = this.getNumFromStr(rollStr);
 
-        if (rollStr.slice(0, 6)==="所持金増加量"){
+        if (rollStr.slice(0, 6)==="所持金獲得量"){
             moneyIncrease *= 1+num/100;
             moneyIncrease = Math.ceil(moneyIncrease);
-            elemUnitMoney.textContent = moneyIncrease;
+            elemMoneyIncrease.textContent = moneyIncrease;
         } else if (rollStr.slice(0, 3)==="所持金"){
             money *= 1+num/100;
             money = Math.ceil(money);
             elemMoney.textContent = money;
+        } else if (rollStr.slice(0, 6)==="スロット強化"){
         }
     }
 }
@@ -113,7 +118,7 @@ class SlotUi {
         let keyframes = `
             @keyframes slot{
                 0%{
-                    transform: translateY(${-48*this.choiceNum}px);
+                    transform: translateY(${-60*this.choiceNum}px);
                 }
                 100%{
                     transform: translateY(0);
@@ -130,17 +135,20 @@ slotUi.setKeyframes();
 
 // 所持金
 let elemMoney = document.getElementById("js-money");
-let savedMoney = localStorage.getItem("money");
-let money;
-if (savedMoney===null){
+let elemMoneyIncrease = document.getElementById("js-unit-money");
+let money = parseInt(localStorage.getItem("money"));
+let moneyIncrease = parseInt(localStorage.getItem("moneyIncrease"));
+if (isNaN(money)){
     money = 0;
-} else {
-    money = parseInt(savedMoney);
-    elemMoney.textContent = money;
+    moneyIncrease = 1;
+    localStorage.setItem("money", 0);
+    localStorage.setItem("moneyIncrease", 1);
 }
-let moneyIncrease = 1;
-let elemUnitMoney = document.getElementById("js-unit-money");
-elemUnitMoney.textContent = moneyIncrease;
+moneyIncrease = Math.max(moneyIncrease, 1);
+elemMoney.textContent = money;
+elemMoneyIncrease.textContent = moneyIncrease;
+
+// 所持金を増加させる
 setInterval(() => {
     money += moneyIncrease;
     elemMoney.textContent = money;
@@ -152,9 +160,56 @@ setInterval(() => {
 let elemButtonReset = document.getElementById("js-button-reset");
 elemButtonReset.onclick = ()=>{
     money = 0;
-    moneyIncrease = 0;
-    elemMoney.textContent = 0;
-    elemUnitMoney.textContent = 0;
+    moneyIncrease = 1;
+    elemMoney.textContent = money;
+    elemMoneyIncrease.textContent = moneyIncrease;
     localStorage.setItem("money", 0);
     localStorage.setItem("moneyIncrease", 0);
+}
+
+// 998スターを表示
+function addStar(){
+    let star = document.createElement("div");
+    star.setAttribute("class", "star");
+    let text = document.createElement("p");
+    text.textContent = 998;
+    star.appendChild(text);
+    let wrapper = document.getElementById("js-wrapper-star");
+    wrapper.appendChild(star);
+}
+
+// 強化
+let priceMoney = parseInt(localStorage.getItem("priceMoney"));
+let priceMoneyIncrease = parseInt(localStorage.getItem("priceMoneyIncrease"));
+let priceSlotEnforce = parseInt(localStorage.getItem("priceSlotEnforce"));
+let priceSlotShorten = parseInt(localStorage.getItem("priceSlotShorten"));
+let priceAutoSlot = parseInt(localStorage.getItem("priceAutoSlot"));
+
+if (isNaN(priceMoney)){
+    priceMoney = 100;
+    priceMoneyIncrease = 100;
+    priceSlotEnforce = 100;
+    priceSlotShorten = 100;
+    priceAutoSlot = 100;
+    localStorage.setItem("priceMoney", 100);
+    localStorage.setItem("priceMoneyIncrease", 100);
+    localStorage.setItem("priceSlotEnforce", 100);
+    localStorage.setItem("priceSlotShorten", 100);
+    localStorage.setItem("priceAutoSlot", 100);
+}
+
+let elemPriceMoney = document.getElementById("js-price-money");
+let elemPriceMoneyIncrease = document.getElementById("js-price-money-increase");
+let elemPriceSlotEnforce = document.getElementById("js-price-slot-enforce");
+let elemPriceSlotShorten = document.getElementById("js-price-slot-shorten");
+let elemPriceAutoSlot = document.getElementById("js-price-auto-slot");
+
+elemPriceMoney.textContent = priceMoney;
+elemPriceMoneyIncrease.textContent = priceMoneyIncrease;
+elemPriceSlotEnforce.textContent = priceSlotEnforce;
+elemPriceSlotShorten.textContent = priceSlotShorten;
+elemPriceAutoSlot.textContent = priceAutoSlot;
+
+if (money>=998244353){
+    addStar();
 }
