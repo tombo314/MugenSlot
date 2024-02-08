@@ -70,21 +70,21 @@ h1 {
 .wrapper-center {
   display: flex;
 }
-.wrapper-center .enforce {
+.wrapper-center .enhance {
   position: relative;
   display: flex;
   flex-direction: column;
   left: 5vw;
 }
-.wrapper-center .enforce label {
+.wrapper-center .enhance label {
   font-size: 19px;
 }
-.wrapper-center .enforce button {
+.wrapper-center .enhance button {
   margin-left: 1vw;
   height: 36px;
   font-size: 18px;
 }
-.wrapper-center .enforce button:nth-child(n+2) {
+.wrapper-center .enhance button:nth-child(n+2) {
   margin-top: 20px;
 }
 .wrapper-center .slot {
