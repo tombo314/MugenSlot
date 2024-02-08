@@ -5,52 +5,131 @@
 }
 
 html{
-    background-color: #5551;
+    background-color: #ff52;
     margin-bottom: 50px;
+}
+
+h1{
+    text-align: center;
+    margin-top: 40px;
+    font-size: 34px;
+    color: rgb(69, 236, 38);
+    text-shadow: 1px 1px #222;
+}
+
+$color: #ee3;
+.wrapper-star{
+    display: flex;
+
+    .star {
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        border-bottom: 50px solid $color;
+        border-right: 75px solid transparent;
+        border-left: 75px solid transparent;
+        transform: rotate(-37deg);
+        margin-left: 12vw;
+        margin-top: 2vh;
+        scale: 1.2;
+        z-index: 10;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75px;
+            border-bottom: 50px solid $color;
+            border-right: 75px solid transparent;
+            border-left: 75px solid transparent;
+            transform: rotate(-71.5deg);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75px;
+            border-bottom: 50px solid $color;
+            border-right: 75px solid transparent;
+            border-left: 75px solid transparent;
+            transform: rotate(71.5deg);
+        }
+
+        p{
+            position: relative;
+            font-size: 50px;
+            z-index: 2;
+            transform: rotate(15deg) translate(-50px, -10px);
+        }
+    }
 }
 
 .money{
     text-align: right;
     margin-right: 15vw;
-    margin-top: 15vh;
+    margin-top: 7vh;
     font-size: 20px;
 }
 
-.slot{
-    width: 30vw;
-    min-width: 300px;
-    height: 120px;
-    margin: 0 auto;
-    text-align: center;
-    margin-top: 10vh;
-    border: 2px solid #666;
-    overflow: hidden;
+.wrapper-center{
+    display: flex;
 
-    .js-text-slot{
-        height: 24px;
-        font-size: 16px;
+    .enforce{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        left: 5vw;
+
+        label{
+            font-size: 19px;
+        }
+
+        button{
+            margin-left: 1vw;
+            height: 36px;
+            font-size: 18px;
+
+            &:nth-child(n+2){
+                margin-top: 20px;
+            }
+        }
     }
 
-    .hit{
-        position: absolute;
-        left: inherit;
-        width: 29vw;
-        min-width: 290px;
-        height: 24px;
-        border: 2px solid #999;
-        transform: translateX(0.3vw);
-    }
-
-    .slot-mode{
-        animation-name: slot;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
+    .slot{
+        width: 45vw;
+        height: 150px;
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 7vh;
+        border: 2px solid #666;
+        overflow: hidden;
+        transform: translateX(-5vw);
+    
+        .js-text-slot{
+            height: 30px;
+            font-size: 19px;
+        }
+    
+        .hit{
+            position: absolute;
+            left: inherit;
+            width: 43vw;
+            height: 30px;
+            border: 2px solid #999;
+            transform: translateX(0.8vw);
+        }
+    
+        .slot-mode{
+            animation-name: slot;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
     }
 }
 
-
 .button-start{
-    margin-top: 30px;
+    margin-top: -7vh;
     text-align: center;
 
     .start{

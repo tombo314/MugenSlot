@@ -5,48 +5,118 @@
 }
 
 html {
-  background-color: rgba(85, 85, 85, 0.0666666667);
+  background-color: rgba(255, 255, 85, 0.1333333333);
   margin-bottom: 50px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 34px;
+  color: rgb(69, 236, 38);
+  text-shadow: 1px 1px #222;
+}
+
+.wrapper-star {
+  display: flex;
+}
+.wrapper-star .star {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  border-bottom: 50px solid #ee3;
+  border-right: 75px solid transparent;
+  border-left: 75px solid transparent;
+  transform: rotate(-37deg);
+  margin-left: 12vw;
+  margin-top: 2vh;
+  scale: 1.2;
+  z-index: 10;
+}
+.wrapper-star .star::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75px;
+  border-bottom: 50px solid #ee3;
+  border-right: 75px solid transparent;
+  border-left: 75px solid transparent;
+  transform: rotate(-71.5deg);
+}
+.wrapper-star .star::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75px;
+  border-bottom: 50px solid #ee3;
+  border-right: 75px solid transparent;
+  border-left: 75px solid transparent;
+  transform: rotate(71.5deg);
+}
+.wrapper-star .star p {
+  position: relative;
+  font-size: 50px;
+  z-index: 2;
+  transform: rotate(15deg) translate(-50px, -10px);
 }
 
 .money {
   text-align: right;
   margin-right: 15vw;
-  margin-top: 15vh;
+  margin-top: 7vh;
   font-size: 20px;
 }
 
-.slot {
-  width: 30vw;
-  min-width: 300px;
-  height: 120px;
+.wrapper-center {
+  display: flex;
+}
+.wrapper-center .enforce {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  left: 5vw;
+}
+.wrapper-center .enforce label {
+  font-size: 19px;
+}
+.wrapper-center .enforce button {
+  margin-left: 1vw;
+  height: 36px;
+  font-size: 18px;
+}
+.wrapper-center .enforce button:nth-child(n+2) {
+  margin-top: 20px;
+}
+.wrapper-center .slot {
+  width: 45vw;
+  height: 150px;
   margin: 0 auto;
   text-align: center;
-  margin-top: 10vh;
+  margin-top: 7vh;
   border: 2px solid #666;
   overflow: hidden;
+  transform: translateX(-5vw);
 }
-.slot .js-text-slot {
-  height: 24px;
-  font-size: 16px;
+.wrapper-center .slot .js-text-slot {
+  height: 30px;
+  font-size: 19px;
 }
-.slot .hit {
+.wrapper-center .slot .hit {
   position: absolute;
   left: inherit;
-  width: 29vw;
-  min-width: 290px;
-  height: 24px;
+  width: 43vw;
+  height: 30px;
   border: 2px solid #999;
-  transform: translateX(0.3vw);
+  transform: translateX(0.8vw);
 }
-.slot .slot-mode {
+.wrapper-center .slot .slot-mode {
   animation-name: slot;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
 .button-start {
-  margin-top: 30px;
+  margin-top: -7vh;
   text-align: center;
 }
 .button-start .start {
