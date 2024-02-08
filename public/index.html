@@ -9,12 +9,40 @@
 </head>
 <body>
 
+    <h1>無 限 ス ロ ッ ト</h1>
+
+    <div class="wrapper-star" id="js-wrapper-star"></div>
+
     <div class="money">
         <p>所持金: <span id="js-money">0</span>円</p>
         <p>1秒あたりの獲得量: <span id="js-unit-money">0</span>円</p>
     </div>
 
-    <div class="slot" id="js-slot"></div>
+    <div class="wrapper-center">
+        <div class="enforce">
+            <div>
+                <label>所持金</label>
+                <button><span id="js-price-money"></span>円</button>
+            </div>
+            <div>
+                <label>所持金獲得量</label>
+                <button><span id="js-price-money-increase"></span>円</button>
+            </div>
+            <div>
+                <label>スロット強化</label>
+                <button><span id="js-price-slot-enforce"></span>円</button>
+            </div>
+            <div>
+                <label>スロット間隔短縮</label>
+                <button><span id="js-price-slot-shorten"></span>円</button>
+            </div>
+            <div>
+                <label>オートスロット</label>
+                <button><span id="js-price-auto-slot"></span>円</button>
+            </div>
+        </div>
+        <div class="slot" id="js-slot"></div>
+    </div>
 
     <div class="button-start">
         <button class="start" id="js-button-start">回す</button>
