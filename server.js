@@ -1,8 +1,3 @@
-// let express = require("express");
-// let server = express();
-// server.use(express.static("public"));
-// server.listen(process.env.PORT || 8000);
-
 let http = require("http");
 let fs = require("fs");
 let server = http.createServer((req, res)=>{
