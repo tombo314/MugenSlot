@@ -326,7 +326,7 @@ elemButtonReset.onclick = ()=>{
     slotUi.registerChoice(roll.choice);
     let elemResultText = document.getElementById("js-result");
     elemResultText.textContent = "";
-    elemStar.visibility = "hidden";
+    elemStar.style.visibility = "hidden";
     money = 0;
     moneyIncrease = 1;
     elemMoney.textContent = money;
