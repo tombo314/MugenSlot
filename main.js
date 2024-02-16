@@ -357,9 +357,9 @@ elemButtonReset.onclick = ()=>{
 // 998スターを表示
 let elemStar = document.getElementById("js-star");
 if (money>=998244353){
-    elemStar.visibility = "visible";
+    elemStar.style.visibility = "visible";
 } else {
-    elemStar.visibility = "hidden";
+    elemStar.style.visibility = "hidden";
 }
 
 let elemButtonPriceMoney = document.getElementById("js-button-price-money");
