@@ -1,5 +1,3 @@
-// localStorage.clear();
-
 function rand(n){
     return Math.trunc(Math.random()*n);
 }
@@ -338,6 +336,7 @@ elemButtonReset.onclick = ()=>{
     elemPriceSlotEnhance.textContent = 100;
     elemPriceSlotShorten.textContent = 100;
     elemPriceAutoSlot.textContent = 100;
+    localStorage.clear();
     localStorage.setItem("money", 0);
     localStorage.setItem("moneyIncrease", 0);
     localStorage.setItem("priceMoney", 100);
