@@ -116,6 +116,7 @@ h1 {
   display: flex;
   justify-content: right;
   margin-top: 3vh;
+  margin-right: -10vw;
 }
 .wrapper-upper .explain {
   width: 60px;
