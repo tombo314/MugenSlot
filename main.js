@@ -229,7 +229,7 @@ class Roll{
             elemIsShorten.disabled = false;
             let elemShortenTimeLeft = document.getElementById("js-shorten-time-left");
             if (this.shortenTimeLeft<=0){
-                this.shortenTimeLeft = this.choiceSlotShorten;
+                this.shortenTimeLeft = num;
                 let set = setInterval(() => {
                     this.shortenTimeLeft--;
                     elemShortenTimeLeft.textContent = this.shortenTimeLeft;
@@ -247,7 +247,7 @@ class Roll{
         } else if (rollStr.slice(0, 7)==="オートスロット"){
             elemAutoSlot.disabled = false;
             if (this.autoSlotTimeLeft<=0){
-                this.autoSlotTimeLeft = this.choiceAutoSlot;
+                this.autoSlotTimeLeft = num;
                 let elemAutoSlotTimeLeft = document.getElementById("js-auto-slot-time-left");
                 let set = setInterval(() => {
                     this.autoSlotTimeLeft--;
