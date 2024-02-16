@@ -28,7 +28,7 @@ h1 {
   position: absolute;
   width: 0px;
   height: 0px;
-  border-bottom: 50px solid #ee3;
+  border-bottom: 50px solid rgb(255, 255, 55);
   border-right: 75px solid transparent;
   border-left: 75px solid transparent;
   transform: rotate(-37deg);
@@ -42,7 +42,7 @@ h1 {
   position: absolute;
   top: 0;
   left: -75px;
-  border-bottom: 50px solid #ee3;
+  border-bottom: 50px solid rgb(255, 255, 55);
   border-right: 75px solid transparent;
   border-left: 75px solid transparent;
   transform: rotate(-71.5deg);
@@ -52,7 +52,7 @@ h1 {
   position: absolute;
   top: 0;
   left: -75px;
-  border-bottom: 50px solid #ee3;
+  border-bottom: 50px solid rgb(255, 255, 55);
   border-right: 75px solid transparent;
   border-left: 75px solid transparent;
   transform: rotate(71.5deg);
@@ -67,12 +67,12 @@ h1 {
 .wrapper-upper {
   display: flex;
   justify-content: right;
+  margin-top: 3vh;
 }
-.wrapper-upper .is-enhanced, .wrapper-upper .auto-slot {
-  width: 220px;
-  margin-top: 7vh;
+.wrapper-upper .is-enhanced, .wrapper-upper .is-shorten, .wrapper-upper .auto-slot {
+  width: 200px;
   margin-right: 30px;
-  font-size: 22px;
+  font-size: 20px;
   background-color: #fff;
   border: 0.8px solid #444;
   border-radius: 10px;
@@ -80,8 +80,21 @@ h1 {
 .wrapper-upper .money {
   text-align: right;
   margin-right: 15vw;
-  margin-top: 7vh;
   font-size: 20px;
+}
+
+.result {
+  width: 45vw;
+  height: 10vh;
+  text-align: center;
+  margin: 3vh auto 0 auto;
+  background-color: #bf9;
+  transform: translateX(5vw);
+}
+.result p {
+  position: relative;
+  font-size: 22px;
+  top: 25%;
 }
 
 .wrapper-center {
@@ -91,6 +104,7 @@ h1 {
   position: relative;
   display: flex;
   flex-direction: column;
+  top: -10vh;
   left: 5vw;
 }
 .wrapper-center .enhance label {
@@ -109,7 +123,7 @@ h1 {
   height: 150px;
   margin: 0 auto;
   text-align: center;
-  margin-top: 7vh;
+  margin-top: 3vh;
   border: 2px solid #666;
   overflow: hidden;
   transform: translateX(-5vw);
@@ -133,13 +147,14 @@ h1 {
 }
 
 .button-start {
-  margin-top: -7vh;
+  margin-top: -12vh;
   text-align: center;
 }
 .button-start .start {
   width: 110px;
   height: 60px;
   font-size: 20px;
+  transform: translateX(5vw);
 }
 
 .button-reset {
