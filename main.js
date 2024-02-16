@@ -240,7 +240,7 @@ class Roll{
                     }
                 }, 1000);
             } else {
-                this.shortenTimeLeft = this.choiceSlotShorten;
+                this.shortenTimeLeft = num;
             }
             elemShortenTimeLeft.textContent = this.choiceSlotShorten;
             result = "スロット間隔短縮" + num + "秒";
@@ -261,7 +261,7 @@ class Roll{
                     }
                 }, 1000);
             } else {
-                this.autoSlotTimeLeft = this.choiceAutoSlot;
+                this.autoSlotTimeLeft = num;
             }
             result = "オートスロット" + num + "秒";
         }
