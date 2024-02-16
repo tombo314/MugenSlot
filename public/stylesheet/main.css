@@ -13,6 +13,53 @@ html {
   margin-bottom: 50px;
 }
 
+.black-sheet {
+  position: absolute;
+  top: 0%;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(85, 85, 85, 0.6666666667);
+  z-index: 2;
+  visibility: hidden;
+}
+.black-sheet .window {
+  position: absolute;
+  top: 8%;
+  left: 25%;
+  width: 50%;
+  height: 87%;
+  border-radius: 20px;
+  background-color: #ffd;
+}
+.black-sheet .window h2 {
+  text-align: center;
+  margin-top: 20px;
+}
+.black-sheet .window .wrapper-button-close {
+  width: 100%;
+  text-align: right;
+}
+.black-sheet .window .wrapper-button-close .button-close {
+  position: absolute;
+  width: 50px;
+  top: 8%;
+  right: 6%;
+  font-size: 30px;
+  background-color: #f44;
+  color: rgba(255, 255, 255, 0.9333333333);
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+.black-sheet .window .wrapper-button-close .button-close:hover {
+  opacity: 0.7;
+}
+.black-sheet .window .wrapper-button-close .button-close:active {
+  background-color: #d66;
+}
+.black-sheet .window .wrapper-text {
+  margin-left: 3vw;
+}
+
 h1 {
   text-align: center;
   margin-top: 40px;
@@ -35,6 +82,7 @@ h1 {
   margin-left: 12vw;
   margin-top: 2vh;
   scale: 1.2;
+  visibility: hidden;
   z-index: 10;
 }
 .wrapper-star .star::before {
@@ -68,6 +116,21 @@ h1 {
   display: flex;
   justify-content: right;
   margin-top: 3vh;
+}
+.wrapper-upper .explain {
+  width: 60px;
+  height: 50px;
+  margin-right: 10vw;
+  font-size: 22px;
+  background-color: rgba(238, 238, 238, 0.6666666667);
+  border: 1px solid #444;
+  border-radius: 30px;
+}
+.wrapper-upper .explain:hover {
+  opacity: 0.6;
+}
+.wrapper-upper .explain:active {
+  background-color: rgba(221, 221, 221, 0.8);
 }
 .wrapper-upper .is-enhanced, .wrapper-upper .is-shorten, .wrapper-upper .auto-slot {
   width: 200px;

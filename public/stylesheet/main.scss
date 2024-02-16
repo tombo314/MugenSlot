@@ -13,6 +13,58 @@ html{
     margin-bottom: 50px;
 }
 
+.black-sheet{
+    position: absolute;
+    top: 0%;
+    width: 100vw;
+    height: 100vh;
+    background-color: #555a;
+    z-index: 2;
+    visibility: hidden;
+
+    .window{
+        position: absolute;
+        top: 8%;
+        left: 25%;
+        width: 50%;
+        height: 87%;
+        border-radius: 20px;
+        background-color: #ffd;
+
+        h2{
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .wrapper-button-close{
+            width: 100%;
+            text-align: right;
+
+            .button-close{
+                position: absolute;
+                width: 50px;
+                top: 8%;
+                right: 6%;
+                font-size: 30px;
+                background-color: #f44;
+                color: #fffe;
+                border: 1px solid #333;
+                border-radius: 10px;
+                &:hover{
+                    opacity: 0.7;
+                }
+                &:active{
+                    background-color: #d66;
+                }
+            }
+        }
+
+        .wrapper-text{
+            margin-left: 3vw;
+        }
+    }
+}
+
 h1{
     text-align: center;
     margin-top: 40px;
@@ -36,6 +88,7 @@ $color: rgb(255, 255, 55);
         margin-left: 12vw;
         margin-top: 2vh;
         scale: 1.2;
+        visibility: hidden;
         z-index: 10;
 
         &::before {
@@ -74,6 +127,22 @@ $color: rgb(255, 255, 55);
     justify-content: right;
     margin-top: 3vh;
     
+    .explain{
+        width: 60px;
+        height: 50px;
+        margin-right: 10vw;
+        font-size: 22px;
+        background-color: #eeea;
+        border: 1px solid #444;
+        border-radius: 30px;
+        &:hover{
+            opacity: 0.6;
+        }
+        &:active{
+            background-color: #dddc;
+        }
+    }
+
     .is-enhanced, .is-shorten, .auto-slot{
         width: 200px;
         margin-right: 30px;
