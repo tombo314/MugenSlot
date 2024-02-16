@@ -1,42 +1,42 @@
-localStorage.clear();
+// localStorage.clear();
 
 function rand(n){
     return Math.trunc(Math.random()*n);
 }
 
 let stopDuration;
-function enableButtonStart(choiceNum){
-    let elemButtonStart = document.getElementById("js-button-start");
+let isSlotSpinning = false;
+function spinSlot(choiceNum){
+    isSlotSpinning = true;
     let elemTextSlot = document.getElementsByClassName("js-text-slot");
 
-    elemButtonStart.onclick = ()=>{
-        elemButtonStart.disabled = true;
+    elemButtonStart.disabled = true;
+    for (let text of elemTextSlot){
+        text.classList.add("slot-mode");
+        let loopDuration = choiceNum*0.14;
+        text.style.animationDuration = `${loopDuration}s`;
+        text.style.animationIterationCount = "infinite";
+    }
+    if (roll.isShorten){
+        stopDuration = 1500;
+    } else {
+        stopDuration = 3000;
+    }
+    setTimeout(() => {
+        let unit = -30;
+        let randSelectIdx = rand(choiceNum);
+        roll.setIdx(randSelectIdx);
+        let randSelectPx = unit*(choiceNum+randSelectIdx);
         for (let text of elemTextSlot){
-            text.classList.add("slot-mode");
-            let loopDuration = choiceNum*0.14;
-            text.style.animationDuration = `${loopDuration}s`;
-            text.style.animationIterationCount = "infinite";
+            text.classList.remove("slot-mode");
+            text.style.transform = `translateY(${randSelectPx}px)`;
         }
-        if (roll.isShorten){
-            stopDuration = 1500;
-        } else {
-            stopDuration = 3000;
-        }
-        setTimeout(() => {
-            let unit = -30;
-            let randSelectIdx = rand(choiceNum);
-            roll.setIdx(randSelectIdx);
-            let randSelectPx = unit*(choiceNum+randSelectIdx);
-            for (let text of elemTextSlot){
-                text.classList.remove("slot-mode");
-                text.style.transform = `translateY(${randSelectPx}px)`;
-            }
-            let restartDuration = 500;
-            setTimeout(()=>{
-                elemButtonStart.disabled = false;
-            }, restartDuration);
-        }, stopDuration);
-    };
+        let restartDuration = 500;
+        setTimeout(()=>{
+            elemButtonStart.disabled = false;
+            isSlotSpinning = false;
+        }, restartDuration);
+    }, stopDuration);
 }
 
 // 所持金
@@ -246,15 +246,36 @@ class Roll{
             }
             elemShortenTimeLeft.textContent = this.choiceSlotShorten;
             result = "スロット間隔短縮" + num + "秒";
-        } else if (rollStr.slice(0, 7)==="オートスロット")
+        } else if (rollStr.slice(0, 7)==="オートスロット"){
+            elemAutoSlot.disabled = false;
+            if (this.autoSlotTimeLeft<=0){
+                this.autoSlotTimeLeft = this.choiceAutoSlot;
+                let elemAutoSlotTimeLeft = document.getElementById("js-auto-slot-time-left");
+                let set = setInterval(() => {
+                    this.autoSlotTimeLeft--;
+                    elemAutoSlotTimeLeft.textContent = this.autoSlotTimeLeft;
+                    if (!isSlotSpinning){
+                        spinSlot(this.choiceNum);
+                    }
+                    if (this.autoSlotTimeLeft<=0){
+                        clearInterval(set);
+                        elemAutoSlot.disabled = true;
+                    }
+                }, 1000);
+            } else {
+                this.autoSlotTimeLeft = this.choiceAutoSlot;
+            }
+            result = "オートスロット" + num + "秒";
+        }
 
         elemResultText.textContent = result;
     }
 }
 let roll = new Roll();
-
-// 回すボタン
-enableButtonStart(roll.choiceNum);
+let elemButtonStart = document.getElementById("js-button-start");
+elemButtonStart.onclick = ()=>{
+    spinSlot(roll.choiceNum);
+};
 
 // スロット
 class SlotUi {
@@ -307,6 +328,7 @@ elemButtonReset.onclick = ()=>{
     slotUi.registerChoice(roll.choice);
     let elemResultText = document.getElementById("js-result");
     elemResultText.textContent = "";
+    elemStar.visibility = "hidden";
     money = 0;
     moneyIncrease = 1;
     elemMoney.textContent = money;
@@ -331,21 +353,14 @@ elemButtonReset.onclick = ()=>{
     localStorage.setItem("isEnhanced", false);
     localStorage.setItem("isShorten", false);
     localStorage.setItem("isAutoSlot", false);
-}
+};
 
 // 998スターを表示
-function addStar(){
-    let star = document.createElement("div");
-    star.setAttribute("class", "star");
-    let text = document.createElement("p");
-    text.textContent = 998;
-    star.appendChild(text);
-    let wrapper = document.getElementById("js-wrapper-star");
-    wrapper.appendChild(star);
-}
-
+let elemStar = document.getElementById("js-star");
 if (money>=998244353){
-    addStar();
+    elemStar.visibility = "visible";
+} else {
+    elemStar.visibility = "hidden";
 }
 
 let elemButtonPriceMoney = document.getElementById("js-button-price-money");
@@ -404,7 +419,7 @@ elemButtonPriceMoney.onclick = ()=>{
     priceMoney += 100;
     roll.rollUpdate();
     elemPriceMoney.textContent = priceMoney;
-}
+};
 elemButtonPriceMoneyIncrease.onclick = ()=>{
     money -= priceMoneyIncrease;
     elemMoney.textContent = money;
@@ -412,7 +427,7 @@ elemButtonPriceMoneyIncrease.onclick = ()=>{
     priceMoneyIncrease += 100;
     roll.rollUpdate();
     elemPriceMoneyIncrease.textContent = priceMoneyIncrease;
-}
+};
 elemButtonPriceSlotEnhance.onclick = ()=>{
     money -= priceSlotEnhance;
     elemMoney.textContent = money;
@@ -420,7 +435,7 @@ elemButtonPriceSlotEnhance.onclick = ()=>{
     priceSlotEnhance += 100;
     roll.rollUpdate();
     elemPriceSlotEnhance.textContent = priceSlotEnhance;
-}
+};
 elemButtonPriceSlotShorten.onclick = ()=>{
     money -= priceSlotShorten;
     elemMoney.textContent = money;
@@ -428,7 +443,7 @@ elemButtonPriceSlotShorten.onclick = ()=>{
     priceSlotShorten += 100;
     roll.rollUpdate();
     elemPriceSlotShorten.textContent = priceSlotShorten;
-}
+};
 elemButtonPriceAutoSlot.onclick = ()=>{
     money -= priceAutoSlot;
     elemMoney.textContent = money;
@@ -436,7 +451,7 @@ elemButtonPriceAutoSlot.onclick = ()=>{
     priceAutoSlot += 100;
     roll.rollUpdate();
     elemPriceAutoSlot.textContent = priceAutoSlot;
-}
+};
 
 let elemIsEnhanced = document.getElementById("js-is-enhanced");
 roll.isEnhanced = localStorage.getItem("isEnhanced");
@@ -458,9 +473,19 @@ if (roll.isShorten===null || roll.isShorten==="false"){
 
 let elemAutoSlot = document.getElementById("js-auto-slot");
 roll.isAutoSlot = localStorage.getItem("isAutoSlot");
-if (roll.isAutoSlot===null || !roll.isAutoSlot==="false"){
+if (roll.isAutoSlot===null || roll.isAutoSlot==="false"){
     roll.isAutoSlot = false;
     elemAutoSlot.disabled = true;
 } else {
     elemAutoSlot.disabled = false;
 }
+
+let elemButtonExplain = document.getElementById("js-explain");
+let elemBlackSheet = document.getElementById("js-black-sheet");
+elemButtonExplain.onclick = ()=>{
+    elemBlackSheet.style.visibility = "visible";
+};
+let elemButtonClose = document.getElementById("js-button-close");
+elemButtonClose.onclick = ()=>{
+    elemBlackSheet.style.visibility = "hidden";
+};
