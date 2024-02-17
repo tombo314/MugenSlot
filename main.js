@@ -326,6 +326,7 @@ elemButtonReset.onclick = ()=>{
     slotUi.registerChoice(roll.choice);
     let elemResultText = document.getElementById("js-result");
     elemResultText.textContent = "";
+    let elemStar = document.getElementById("js-star");
     elemStar.style.visibility = "hidden";
     money = 0;
     moneyIncrease = 1;
@@ -353,14 +354,6 @@ elemButtonReset.onclick = ()=>{
     localStorage.setItem("isShorten", false);
     localStorage.setItem("isAutoSlot", false);
 };
-
-// 998スターを表示
-let elemStar = document.getElementById("js-star");
-if (money>=998244353){
-    elemStar.style.visibility = "visible";
-} else {
-    elemStar.style.visibility = "hidden";
-}
 
 let elemButtonPriceMoney = document.getElementById("js-button-price-money");
 let elemButtonPriceMoneyIncrease = document.getElementById("js-button-price-money-increase");
@@ -404,6 +397,13 @@ setInterval(() => {
     localStorage.setItem("money", money);
     localStorage.setItem("moneyIncrease", moneyIncrease);
     updateButtonPriceState();
+    // 998スターを表示
+    let elemStar = document.getElementById("js-star");
+    if (money>=998244353){
+        elemStar.style.visibility = "visible";
+    } else {
+        elemStar.style.visibility = "hidden";
+    }
 }, 1000);
 
 // スロットのUIを作る
